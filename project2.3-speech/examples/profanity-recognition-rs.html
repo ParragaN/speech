@@ -1,0 +1,103 @@
+<html>
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.5/p5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.5/addons/p5.dom.js"></script>
+	<script src="../lib/p5.speech.js"></script>
+	<script>
+
+	var myRec = new p5.SpeechRec(); // new P5.SpeechRec object
+	
+
+	
+	
+
+var myVoice = new p5.Speech('Google UK English Male', speechLoaded); 
+
+
+
+
+	function setup()
+	{
+		// graphics stuff:
+		createCanvas(windowWidth, windowHeight);
+		background(255, 255, 255);
+		fill(0, 0, 0, 255);
+		// instructions:
+		textSize(32);
+		textAlign(CENTER);
+		text('😃', width/2,height/4)
+		text("I'm a talking robot, make me speak!", width/2, height/3);
+		textSize(62);
+		text("anything you say I'll say", width/2, height/2);
+		myRec.onResult = showResult;
+		myRec.start();
+		
+// restart code retrieved from https://editor.p5js.org/re7l/sketches/SkcHNSSKQ
+		myRec.onEnd = restartRec;
+
+
+		
+
+		// console.log(resultString.includes('*'));  //true
+	}
+
+
+	function speechLoaded()
+	{
+  		// say cheers:
+		console.log("Ready");
+	}
+
+	function draw()
+	{
+		// why draw when you can talk?
+	}
+
+	function showResult()
+	{
+		if(myRec.resultValue==true) {
+
+			// match function modified from https://p5js.org/reference/#/p5/match
+			let string = myRec.resultString;
+			let swear = '\\*';
+			let m = match(string, swear);
+			
+
+
+				if (m== null) {
+					background(255, 255, 255);
+					text('😃', width/2,height/4)
+				text(myRec.resultString, width/2, height/2);	
+				myVoice.speak(string);
+				console.log(myRec.resultString);
+				}
+			else {
+
+			
+			background(0,0,0);
+			fill(255,255, 255);
+			text('😠', width/2,height/4);
+			text('Watch your Profanity', width/2, height/2);
+			myVoice.speak("Watch your Profanity");
+			
+
+
+			// console.log(myRec.resultString);
+			console.log(m);
+			// console.log(foo.resultString.includes('*')); 
+		}
+	}
+	}
+
+	function restartRec() {
+  print("end");
+  myRec.start();
+}
+
+
+
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<html>
+<head>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.5/p5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.5/addons/p5.dom.js"></script>
+	<script src="../lib/p5.speech.js"></script>
+	<script>
+
+	var myRec = new p5.SpeechRec('en-US', parseResult); // new P5.SpeechRec object
+	myRec.continuous = true; // do continuous recognition
+	myRec.interimResults = true; // allow partial recognition (faster, less accurate)
+
+	var myVoice = new p5.Speech('Google UK English Male', speechLoaded); 
+
+
+
+	var button1; // UI
+	var button2;
+	var button3;
+
+	// var counter= 0;
+	// var x, y;
+	// var dx, dy;
+
+// This is me trying to make a constructor but i gave up and instead hardcoded it
+		// function speakbutton(){
+
+		// 	this.createButton;
+		// 	this.x=100;
+		// 	this.y=200;
+		// 	this.name;
+			
+		// 	this.display = function(){
+		// 		stroke(255);
+		// 		fill(255);
+
+		// 	}
+		// console.log(this.name);
+		// }
+
+
+
+	function setup()
+	{
+		// graphics stuff:
+		createCanvas(windowWidth, windowHeight);
+		background(252, 238, 199);
+		
+
+		
+
+		button1 = createButton('Mystery Lyric 1');
+		button1.position(180, 340);
+		button1.mousePressed(sing1);
+		
+		button2 = createButton('Mystery Lyric 2');
+  		button2.position(180, 440);
+		button2.mousePressed(sing2);
+
+  		
+		button3 = createButton('Mystery Lyric 3');
+  		button3.position(180, 540);
+		button3.mousePressed(sing3);
+  		
+
+
+		// instructions:
+		fill(51);
+		noStroke();
+		textSize(50);
+		textAlign(LEFT);
+		text("Where's that lyric from?", 20, 130);
+		textSize(20);
+		text("Users will press a mystery lyric button and have a lyric read aloud to them. Say the name of the artist to gain a point, otherwise say I don't know.", 20, 180);
+		
+
+
+		//myRec.onResult = parseResult; // now in the constructor
+		myRec.start(); // start engine
+	}
+
+
+	function speechLoaded()
+	{
+  		// say cheers:
+		myVoice.speak("Where's that lyric from?");
+	}
+
+
+// i had to hardcode the sing function too because when i added more than 2 buttons it stopped working
+	function sing1()
+	{
+		
+		// beyonce lyric
+		if(button1.elt.innerHTML=='Mystery Lyric 1') myVoice.speak("If you liked it then you shoulda put a ring on it Don't be mad once you see that he want it If you liked it then you shoulda put a ring on it  Oh, oh, oh");
+
+		// jay-z lyric
+		else if (button2.elt.innerHTML=='Mystery Lyric 2') myVoice.speak("O.J. like, I'm not black, I'm O.J. ...okay");
+
+		
+		else if(button3.elt.innerHTML=='Mystery Lyric 3') myVoice.speak("Yesterday all my troubles feel so far away Now it looks as though they're here to stay Oh, I believe in yesterday");
+
+	
+	}
+	
+	function sing2()
+	{
+	
+	
+		// jay-z lyric
+		if (button2.elt.innerHTML=='Mystery Lyric 2') myVoice.speak("O.J. like, I'm not black, I'm O.J. ...okay");
+
+		
+		else if(button3.elt.innerHTML=='Mystery Lyric 3') myVoice.speak("Yesterday all my troubles feel so far away Now it looks as though they're here to stay Oh, I believe in yesterday");
+
+	
+	}
+	function sing3()
+	{
+	
+		
+		if(button3.elt.innerHTML=='Mystery Lyric 3') myVoice.speak("Yesterday all my troubles feel so far away Now it looks as though they're here to stay Oh, I believe in yesterday");
+// jay-z lyric
+		else if (button2.elt.innerHTML=='Mystery Lyric 2') myVoice.speak("O.J. like, I'm not black, I'm O.J. ...okay");
+
+	
+	}
+
+
+
+	function draw()
+	{
+
+
+	}
+
+	function parseResult()
+	{
+		// recognition system will often append words into phrases.
+		// so hack here is to only use the last word:
+		var mostrecentword = myRec.resultString.split(' ').pop();
+		if(mostrecentword.indexOf("Jay-Z")!==-1) { correct2(); }
+		else if(mostrecentword.indexOf("Beyonce")!==-1) { correct1(); }
+		else if(mostrecentword.indexOf("Beatles")!==-1) { correct3(); }
+		else if(mostrecentword.indexOf("know")!==-1) { wrong(); }
+		// else if(mostrecentword.indexOf("clear")!==-1) { background(255); }
+		console.log(mostrecentword);
+	}
+
+	function correct1(){
+		fill(0,255,0);
+	textSize(50);
+		textAlign(LEFT);
+		text("✔", 280, 340);
+
+
+}
+
+
+function correct2(){
+	fill(0,255,0);
+	textSize(50);
+		textAlign(LEFT);
+		text("✔", 280, 440);
+
+
+}
+
+function correct3(){
+	
+	fill(0,255,0);
+	textSize(50);
+		textAlign(LEFT);
+		text("✔", 280, 540);
+
+
+}
+
+
+
+function wrong(){
+	myVoice.speak("do you live under a rock!?");
+	
+}
+
+</script>
+</head>
+<body>
+</body>
+</html>
